@@ -1,13 +1,17 @@
 from abc import ABC, abstractmethod
+import logging
+
+
+logging.basicConfig(level=logging.INFO)
 
 
 class Book:
-    def __init__(self, title, author, year):
+    def __init__(self, title: str, author: str, year: int):
         self.title = title
         self.author = author
         self.year = year
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> str:
         if key in ("title", "author", "year"):
             return getattr(self, key)
         raise KeyError(f"{key} is not a valid attribute")
@@ -34,11 +38,11 @@ class Library(LibraryInterface):
     def __init__(self):
         self.books = []
 
-    def add_book(self, title, author, year):
+    def add_book(self, title: str, author: str, year: int):
         book = Book(title, author, year)
         self.books.append(book)
 
-    def remove_book(self, title):
+    def remove_book(self, title: str):
         for book in self.books:
             if book["title"] == title:
                 self.books.remove(book)
@@ -46,7 +50,7 @@ class Library(LibraryInterface):
 
     def show_books(self):
         for book in self.books:
-            print(book)
+            logging.info(book)
 
 
 class LibraryManager:
@@ -75,7 +79,8 @@ def main():
             case "exit":
                 break
             case _:
-                print("Invalid command. Please try again.")
+                logging.info("Invalid command. Please try again.")
+
 
 if __name__ == "__main__":
     main()
